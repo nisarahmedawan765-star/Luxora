@@ -1,0 +1,55 @@
+<h5></h5><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Luxury Brands — LUXORA MARKET</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/components.css" />
+  <link rel="stylesheet" href="assets/css/responsive.css" />
+</head>
+<body>
+  <header class="main-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand-logo">
+        <img src="assets/images/luxora-market-logo-web.png" alt="LUXORA MARKET" class="brand-logo-img" />
+      </a>
+      <div style="color: var(--color-white); font-weight: 700;">🏷️ Certified Luxury Brands</div>
+      <div class="header-actions">
+        <a href="cart.html" class="header-action-item"><span class="header-action-icon">🛒 <span class="badge-count cart-count-badge">0</span></span></a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" style="margin-top: 30px; margin-bottom: 60px;">
+    <div class="section-title-wrap">
+      <h1 class="section-title"><span class="title-accent"></span>Official Luxury Partners</h1>
+    </div>
+    
+    <div class="grid-3" id="brands-grid">
+      <!-- Injected by JS -->
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="assets/js/supabase.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/cart.js"></script>
+  <script src="assets/js/wishlist.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const brands = window.luxoraDB.getBrands();
+      document.getElementById('brands-grid').innerHTML = brands.map(b => `
+        <a href="shop.html?q=${b.name}" style="background: #FFFFFF; border-radius: var(--radius-lg); border: 1px solid var(--color-border-light); padding: 30px; display: flex; align-items: center; gap: 20px; transition: all 0.2s;" onmouseenter="this.style.transform='translateY(-4px)'" onmouseleave="this.style.transform='translateY(0)'">
+          <img src="${b.logo}" alt="${b.name}" style="width: 70px; height: 70px; object-fit: cover; border-radius: var(--radius-md);" />
+          <div>
+            <h3 style="font-size: 1.25rem; margin-bottom: 4px;">${b.name}</h3>
+            <p style="color: var(--color-text-muted); font-size: 0.85rem;">Official Certified Partner</p>
+          </div>
+        </a>
+      `).join('');
+    });
+  </script>
+</body>
+</html>

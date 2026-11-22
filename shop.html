@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shop Luxury Collection — LUXORA MARKET</title>
+  
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/components.css" />
+  <link rel="stylesheet" href="assets/css/responsive.css" />
+</head>
+<body>
+
+  <!-- Top Utility Bar -->
+  <div class="top-bar">
+    <div class="container top-bar-inner">
+      <div class="top-bar-links">
+        <span>✨ Explore Certified Luxury Products</span>
+        <a href="track-order.html">📍 Track Order</a>
+      </div>
+      <div class="top-bar-links">
+        <a href="seller/register.html" class="text-gold">✦ Sell on Luxora</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="main-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand-logo">
+        <img src="assets/images/luxora-market-logo-web.png" alt="LUXORA MARKET" class="lx-logo-img" />
+      </a>
+
+      <div class="header-search">
+        <form class="search-form" id="shop-search-form" onsubmit="event.preventDefault(); applyFilters();">
+          <select name="category" class="search-category-select" id="shop-header-category-select">
+            <option value="" selected>All Categories</option>
+          </select>
+          <input type="text" id="shop-search-input" class="search-input" placeholder="Search catalog..." />
+          <button type="submit" class="search-btn">🔍 Search</button>
+        </form>
+      </div>
+
+      <div class="header-actions">
+        <a href="account.html" class="header-action-item">
+          <span class="header-action-icon">👤</span>
+          <div class="header-action-text">
+            <span class="header-action-sub">Welcome</span>
+            <span class="header-action-title">Account</span>
+          </div>
+        </a>
+        <a href="wishlist.html" class="header-action-item">
+          <span class="header-action-icon">♥ <span class="badge-count wishlist-count-badge">0</span></span>
+        </a>
+        <a href="cart.html" class="header-action-item">
+          <span class="header-action-icon">🛒 <span class="badge-count cart-count-badge">0</span></span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Breadcrumb -->
+  <div class="container" style="padding-top: 16px;">
+    <div style="font-size: 0.85rem; color: var(--color-text-muted);">
+      <a href="index.html">Home</a> &nbsp;/&nbsp; <strong style="color: var(--color-black);">Catalog & Shop</strong>
+    </div>
+  </div>
+
+  <!-- Main Catalog Grid Layout (Sidebar Filters + Products) -->
+  <main class="container shop-layout" style="margin-top: 20px;">
+    
+    <!-- Left Filter Sidebar -->
+    <aside style="background: #FFFFFF; padding: 22px; border-radius: var(--radius-lg); border: 1px solid var(--color-border-light); height: fit-content;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--color-border-light); padding-bottom: 10px;">
+        <h3 style="font-size: 1.1rem; font-weight: 700;">Filters</h3>
+        <button onclick="resetFilters()" style="font-size: 0.8rem; color: var(--color-green); font-weight: 600;">Reset All</button>
+      </div>
+
+      <!-- Categories Filter -->
+      <div class="form-group">
+        <label class="form-label">Category</label>
+        <div id="filter-categories-list" style="display: flex; flex-direction: column; gap: 8px; font-size: 0.875rem;">
+          <!-- Injected by JS -->
+        </div>
+      </div>
+
+      <!-- Brands Filter -->
+      <div class="form-group" style="margin-top: 20px;">
+        <label class="form-label">Brand</label>
+        <div id="filter-brands-list" style="display: flex; flex-direction: column; gap: 8px; font-size: 0.875rem;">
+          <!-- Injected by JS -->
+        </div>
+      </div>
+
+      <!-- Price Slider -->
+      <div class="form-group" style="margin-top: 20px;">
+        <label class="form-label">Max Price: <span id="price-val" class="text-green" style="font-weight: 700;">Rs. 4,000,000</span></label>
+        <input type="range" id="filter-price-slider" min="5000" max="4000000" step="10000" value="4000000" style="width: 100%; accent-color: var(--color-green);" oninput="document.getElementById('price-val').textContent = 'Rs. ' + Number(this.value).toLocaleString(); applyFilters();" />
+      </div>
+
+      <!-- Rating Filter -->
+      <div class="form-group" style="margin-top: 20px;">
+        <label class="form-label">Minimum Rating</label>
+        <select id="filter-rating" class="form-select" onchange="applyFilters()">
+          <option value="0">All Ratings</option>
+          <option value="4.5">★ 4.5 & above</option>
+          <option value="4.0">★ 4.0 & above</option>
+          <option value="3.0">★ 3.0 & above</option>
+        </select>
+      </div>
+    </aside>
+
+    <!-- Products Content Area -->
+    <section>
+      <!-- Sorting & Results Toolbar -->
+      <div style="background: #FFFFFF; padding: 14px 20px; border-radius: var(--radius-md); border: 1px solid var(--color-border-light); display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+        <div>
+          <span style="font-size: 0.9rem; color: var(--color-text-muted);">Showing <strong id="products-count" style="color: var(--color-black);">0</strong> luxury products</span>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <label style="font-size: 0.875rem; font-weight: 600;">Sort By:</label>
+          <select id="filter-sort" class="form-select" style="width: auto; padding: 6px 12px;" onchange="applyFilters()">
+            <option value="featured">Featured</option>
+            <option value="price_low">Price: Low to High</option>
+            <option value="price_high">Price: High to Low</option>
+            <option value="rating">Highest Rated</option>
+            <option value="newest">Newest Arrivals</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Products Grid -->
+      <div class="products-grid" id="catalog-products-grid">
+        <!-- Rendered by JS -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Mobile Bottom Nav -->
+  <nav class="mobile-bottom-nav">
+    <a href="index.html" class="mobile-nav-item"><span>🏠</span><span>Home</span></a>
+    <a href="shop.html" class="mobile-nav-item active"><span>🛍️</span><span>Shop</span></a>
+    <a href="wishlist.html" class="mobile-nav-item"><span>♥</span><span>Wishlist</span></a>
+    <a href="cart.html" class="mobile-nav-item"><span>🛒</span><span>Cart</span></a>
+    <a href="account.html" class="mobile-nav-item"><span>👤</span><span>Account</span></a>
+  </nav>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="assets/js/supabase.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/products.js"></script>
+  <script src="assets/js/cart.js"></script>
+  <script src="assets/js/wishlist.js"></script>
+  <script src="assets/js/main.js"></script>
+
+  <script>
+    let activeCategory = new URLSearchParams(window.location.search).get('category') || '';
+    let searchQuery = new URLSearchParams(window.location.search).get('q') || '';
+
+    function initFilterOptions() {
+      // 1. Categories (Active categories only)
+      const categories = window.luxoraDB ? window.luxoraDB.getActiveCategories() : [];
+      const catList = document.getElementById('filter-categories-list');
+      if (catList) {
+        catList.innerHTML = `
+          <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+            <input type="radio" name="cat_filter" value="" ${!activeCategory ? 'checked' : ''} onchange="activeCategory=''; applyFilters();" />
+            All Categories
+          </label>
+          ${categories.map(c => `
+            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+              <input type="radio" name="cat_filter" value="${c.slug}" ${activeCategory === c.slug ? 'checked' : ''} onchange="activeCategory='${c.slug}'; applyFilters();" />
+              ${c.name}
+            </label>
+          `).join('')}
+        `;
+      }
+
+      // 2. Brands
+      const brands = window.luxoraDB.getBrands();
+      const brandList = document.getElementById('filter-brands-list');
+      if (brandList) {
+        brandList.innerHTML = brands.map(b => `
+          <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+            <input type="checkbox" class="brand-checkbox" value="${b.name}" onchange="applyFilters()" />
+            ${b.name}
+          </label>
+        `).join('');
+      }
+
+      if (searchQuery) {
+        document.getElementById('shop-search-input').value = searchQuery;
+      }
+
+      applyFilters();
+    }
+
+    function applyFilters() {
+      let products = window.luxoraDB.getProducts();
+
+      // Search Query
+      const q = document.getElementById('shop-search-input')?.value.toLowerCase().trim();
+      if (q) {
+        products = products.filter(p => p.name.toLowerCase().includes(q) || p.description.toLowerCase().includes(q) || (p.brand && p.brand.toLowerCase().includes(q)));
+      }
+
+      // Category
+      if (activeCategory) {
+        products = products.filter(p => p.category_slug === activeCategory || (p.category && p.category.toLowerCase().includes(activeCategory.toLowerCase())) || String(p.category_id) === String(activeCategory));
+      }
+
+      // Brands
+      const checkedBrands = Array.from(document.querySelectorAll('.brand-checkbox:checked')).map(cb => cb.value);
+      if (checkedBrands.length > 0) {
+        products = products.filter(p => checkedBrands.includes(p.brand));
+      }
+
+      // Max Price
+      const maxPrice = parseFloat(document.getElementById('filter-price-slider')?.value || 4000000);
+      products = products.filter(p => (p.sale_price || p.price) <= maxPrice);
+
+      // Rating
+      const minRating = parseFloat(document.getElementById('filter-rating')?.value || 0);
+      if (minRating > 0) {
+        products = products.filter(p => p.rating >= minRating);
+      }
+
+      // Sort
+      const sortBy = document.getElementById('filter-sort')?.value || 'featured';
+      if (sortBy === 'price_low') {
+        products.sort((a, b) => (a.sale_price || a.price) - (b.sale_price || b.price));
+      } else if (sortBy === 'price_high') {
+        products.sort((a, b) => (b.sale_price || b.price) - (a.sale_price || a.price));
+      } else if (sortBy === 'rating') {
+        products.sort((a, b) => b.rating - a.rating);
+      } else if (sortBy === 'newest') {
+        products.sort((a, b) => (b.is_new_arrival ? 1 : 0) - (a.is_new_arrival ? 1 : 0));
+      }
+
+      // Render
+      document.getElementById('products-count').textContent = products.length;
+      const grid = document.getElementById('catalog-products-grid');
+      if (grid) {
+        if (products.length === 0) {
+          grid.innerHTML = `<div style="grid-column: 1/-1; padding: 60px 20px; text-align: center; background: #FFFFFF; border-radius: var(--radius-lg);">
+            <div style="font-size: 3rem; margin-bottom: 12px;">🔍</div>
+            <h3>No products found matching your criteria.</h3>
+            <p style="color: var(--color-text-muted); margin-top: 8px;">Try clearing filters or changing search keywords.</p>
+            <button class="btn btn-green" style="margin-top: 18px;" onclick="resetFilters()">Clear All Filters</button>
+          </div>`;
+        } else {
+          grid.innerHTML = products.map(p => window.LuxoraProducts.renderProductCard(p)).join('');
+        }
+      }
+    }
+
+    function resetFilters() {
+      activeCategory = '';
+      if (document.getElementById('shop-search-input')) document.getElementById('shop-search-input').value = '';
+      document.querySelectorAll('.brand-checkbox').forEach(cb => cb.checked = false);
+      if (document.getElementById('filter-price-slider')) {
+        document.getElementById('filter-price-slider').value = 4000000;
+        document.getElementById('price-val').textContent = 'Rs. 4,000,000';
+      }
+      if (document.getElementById('filter-rating')) document.getElementById('filter-rating').value = '0';
+      initFilterOptions();
+    }
+
+    window.activeCategory = activeCategory;
+    window.applyFilters = applyFilters;
+
+    window.addEventListener('luxora:categories-updated', () => {
+      initFilterOptions();
+    });
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'luxora_categories') initFilterOptions();
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initFilterOptions();
+      setTimeout(initFilterOptions, 400);
+      setTimeout(initFilterOptions, 1200);
+    });
+  </script>
+</body>
+</html>

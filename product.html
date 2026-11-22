@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product Details — LUXORA MARKET</title>
+  
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/components.css" />
+  <link rel="stylesheet" href="assets/css/responsive.css" />
+</head>
+<body>
+
+  <!-- Top Utility Bar -->
+  <div class="top-bar">
+    <div class="container top-bar-inner">
+      <div class="top-bar-links">
+        <a href="index.html">← Back to Luxora Storefront</a>
+      </div>
+      <div class="top-bar-links">
+        <span>Authenticity Certified ✦ VIP Delivery</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="main-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand-logo">
+        <img src="assets/images/luxora-market-logo-web.png" alt="LUXORA MARKET" class="lx-logo-img" />
+      </a>
+
+      <div class="header-search">
+        <form class="search-form" action="shop.html" method="GET">
+          <select name="category" class="search-category-select">
+            <option value="" selected>All Categories</option>
+          </select>
+          <input type="text" name="q" class="search-input" placeholder="Search catalog..." />
+          <button type="submit" class="search-btn">🔍 Search</button>
+        </form>
+      </div>
+
+      <div class="header-actions">
+        <a href="account.html" class="header-action-item"><span class="header-action-icon">👤</span></a>
+        <a href="wishlist.html" class="header-action-item"><span class="header-action-icon">♥ <span class="badge-count wishlist-count-badge">0</span></span></a>
+        <a href="cart.html" class="header-action-item"><span class="header-action-icon">🛒 <span class="badge-count cart-count-badge">0</span></span></a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Breadcrumb -->
+  <div class="container" style="padding-top: 16px;">
+    <div style="font-size: 0.85rem; color: var(--color-text-muted);">
+      <a href="index.html">Home</a> &nbsp;/&nbsp; <a href="shop.html">Catalog</a> &nbsp;/&nbsp; <span id="prod-crumb-name" style="color: var(--color-black); font-weight: 600;">Product</span>
+    </div>
+  </div>
+
+  <!-- Main Product Detail View -->
+  <main class="container" style="margin-top: 24px;">
+    <div class="product-detail-grid" style="background: #FFFFFF; padding: 36px; border-radius: var(--radius-lg); border: 1px solid var(--color-border-light); box-shadow: var(--shadow-sm);">
+      
+      <!-- Gallery Column -->
+      <div>
+        <div style="position: relative; width: 100%; border-radius: var(--radius-md); overflow: hidden; background: #F9FAFB; border: 1px solid var(--color-border-light); margin-bottom: 16px;">
+          <img id="main-product-image" src="" alt="Product Image" style="width: 100%; height: 420px; object-fit: contain; transition: transform 0.3s ease;" onmousemove="this.style.transform='scale(1.15)'" onmouseleave="this.style.transform='scale(1)'" />
+        </div>
+        <div id="product-thumbnails" style="display: flex; gap: 12px; overflow-x: auto;">
+          <!-- Thumbnails injected by JS -->
+        </div>
+      </div>
+
+      <!-- Product Details Column -->
+      <div>
+        <div style="display: flex; gap: 8px; margin-bottom: 10px;">
+          <span class="badge badge-gold" id="prod-brand">BRAND</span>
+          <span class="badge badge-green" id="prod-stock-badge">In Stock</span>
+        </div>
+
+        <h1 id="prod-title" style="font-size: 1.75rem; font-weight: 800; line-height: 1.25; margin-bottom: 12px; color: var(--color-black);">Loading...</h1>
+
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px; font-size: 0.9rem;">
+          <span class="rating-stars" id="prod-stars" style="color: #F59E0B; font-size: 1.1rem;">★★★★★</span>
+          <span style="font-weight: 700;" id="prod-rating-num">5.0</span>
+          <span style="color: var(--color-text-muted);" id="prod-reviews-num">(0 verified reviews)</span>
+          <span style="color: var(--color-text-muted);">•</span>
+          <span style="color: var(--color-text-muted);" id="prod-sku">SKU: ---</span>
+        </div>
+
+        <!-- Pricing Row -->
+        <div style="display: flex; align-items: baseline; gap: 14px; margin-bottom: 20px; padding-bottom: 18px; border-bottom: 1px solid var(--color-border-light);">
+          <span id="prod-current-price" style="font-size: 2rem; font-weight: 800; color: var(--color-black);">Rs. 0</span>
+          <span id="prod-original-price" style="font-size: 1.15rem; color: var(--color-text-muted); text-decoration: line-through;"></span>
+          <span id="prod-discount-badge" class="badge badge-discount"></span>
+        </div>
+
+        <p id="prod-short-desc" style="font-size: 0.95rem; color: var(--color-text-muted); line-height: 1.6; margin-bottom: 24px;">...</p>
+
+        <!-- Variants Selection -->
+        <div class="form-group">
+          <label class="form-label">Available Edition / Color:</label>
+          <div style="display: flex; gap: 10px;">
+            <button class="btn btn-outline active" style="border-color: var(--color-black); font-weight: 700;">Standard Black</button>
+            <button class="btn btn-outline">Silver Titanium</button>
+            <button class="btn btn-outline">Luxury Gold</button>
+          </div>
+        </div>
+
+        <!-- Quantity and Action Buttons -->
+        <div style="display: flex; gap: 14px; align-items: center; margin-top: 24px;">
+          <div style="display: flex; align-items: center; border: 1.5px solid var(--color-border-light); border-radius: var(--radius-md); overflow: hidden;">
+            <button onclick="decrementQty()" style="padding: 10px 14px; font-weight: 800; background: #F9FAFB;">-</button>
+            <input type="number" id="buy-qty" value="1" min="1" max="99" style="width: 45px; text-align: center; border: none; font-weight: 700; outline: none;" />
+            <button onclick="incrementQty()" style="padding: 10px 14px; font-weight: 800; background: #F9FAFB;">+</button>
+          </div>
+
+          <button id="btn-add-cart-main" class="btn btn-green btn-lg" style="flex: 1;">
+            🛒 Add to Cart
+          </button>
+
+          <button id="btn-buy-now-main" class="btn btn-gold btn-lg">
+            ⚡ Buy Now
+          </button>
+
+          <button id="btn-wishlist-main" class="btn btn-outline" style="padding: 14px 18px; font-size: 1.2rem;">
+            ♥
+          </button>
+        </div>
+
+        <!-- Trust Badges -->
+        <div style="margin-top: 28px; background: #F9FAFB; padding: 16px; border-radius: var(--radius-md); display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 0.825rem; color: var(--color-text-main);">
+          <div>🚚 <strong>Free Delivery:</strong> Orders over Rs. 5,000</div>
+          <div>🔄 <strong>30-Day Return:</strong> 100% Refund guarantee</div>
+          <div>🛡️ <strong>Authenticity:</strong> 100% Genuine Certified</div>
+          <div>🏪 <strong>Seller:</strong> <span id="prod-seller-name" style="font-weight: 700; color: var(--color-green);">Luxora Official</span></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Product Tabs (Description, Specifications, Reviews, Q&A) -->
+    <section style="margin-top: 40px; background: #FFFFFF; border-radius: var(--radius-lg); border: 1px solid var(--color-border-light); overflow: hidden;">
+      <div style="display: flex; border-bottom: 1px solid var(--color-border-light); background: #F9FAFB;">
+        <button class="tab-btn active" onclick="switchTab('desc', this)" style="padding: 16px 28px; font-weight: 700; border-bottom: 3px solid var(--color-gold);">Description</button>
+        <button class="tab-btn" onclick="switchTab('specs', this)" style="padding: 16px 28px; font-weight: 700; color: var(--color-text-muted);">Specifications</button>
+        <button class="tab-btn" onclick="switchTab('reviews', this)" style="padding: 16px 28px; font-weight: 700; color: var(--color-text-muted);">Verified Reviews</button>
+        <button class="tab-btn" onclick="switchTab('qa', this)" style="padding: 16px 28px; font-weight: 700; color: var(--color-text-muted);">Q & A</button>
+      </div>
+
+      <div style="padding: 30px;">
+        <!-- Tab 1: Description -->
+        <div id="tab-content-desc">
+          <h3 style="margin-bottom: 14px;">Product Overview</h3>
+          <p id="prod-full-description" style="line-height: 1.7; color: var(--color-text-main); font-size: 0.95rem;"></p>
+        </div>
+
+        <!-- Tab 2: Specifications -->
+        <div id="tab-content-specs" style="display: none;">
+          <h3 style="margin-bottom: 14px;">Technical Specifications</h3>
+          <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;" id="prod-specs-table">
+            <!-- Injected by JS -->
+          </table>
+        </div>
+
+        <!-- Tab 3: Reviews -->
+        <div id="tab-content-reviews" style="display: none;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+            <h3>Verified Customer Reviews</h3>
+            <button class="btn btn-green btn-sm" onclick="alert('Review submission modal: Thank you for your feedback!')">✍ Write a Review</button>
+          </div>
+          <div id="prod-reviews-list" style="display: flex; flex-direction: column; gap: 16px;">
+            <div style="background: #F9FAFB; padding: 18px; border-radius: var(--radius-md);">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                <strong>Farhan Ahmed (Verified Purchaser)</strong>
+                <span style="color: #F59E0B;">★★★★★</span>
+              </div>
+              <p style="font-size: 0.875rem; color: var(--color-text-main);">Exceptional build quality and authentic serial number. Delivery arrived within 24 hours in Islamabad. Outstanding experience with Luxora!</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 4: Q&A -->
+        <div id="tab-content-qa" style="display: none;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+            <h3>Questions & Answers</h3>
+            <button class="btn btn-outline btn-sm" onclick="alert('Question submitted to seller concierges.')">💬 Ask a Question</button>
+          </div>
+          <p style="color: var(--color-text-muted); font-size: 0.9rem;">Have questions about this item? Ask our concierge or verified sellers directly.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Related Products -->
+    <section style="margin-top: 50px;">
+      <div class="section-title-wrap">
+        <h2 class="section-title"><span class="title-accent"></span>Related Luxury Products</h2>
+      </div>
+      <div class="products-grid" id="related-products-grid">
+        <!-- Injected by JS -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Mobile Bottom Nav -->
+  <nav class="mobile-bottom-nav">
+    <a href="index.html" class="mobile-nav-item"><span>🏠</span><span>Home</span></a>
+    <a href="shop.html" class="mobile-nav-item"><span>🛍️</span><span>Shop</span></a>
+    <a href="wishlist.html" class="mobile-nav-item"><span>♥</span><span>Wishlist</span></a>
+    <a href="cart.html" class="mobile-nav-item"><span>🛒</span><span>Cart</span></a>
+    <a href="account.html" class="mobile-nav-item"><span>👤</span><span>Account</span></a>
+  </nav>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="assets/js/supabase.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/products.js"></script>
+  <script src="assets/js/cart.js"></script>
+  <script src="assets/js/wishlist.js"></script>
+  <script src="assets/js/main.js"></script>
+
+  <script>
+    let currentProduct = null;
+
+    function incrementQty() {
+      const el = document.getElementById('buy-qty');
+      el.value = parseInt(el.value) + 1;
+    }
+
+    function decrementQty() {
+      const el = document.getElementById('buy-qty');
+      if (parseInt(el.value) > 1) el.value = parseInt(el.value) - 1;
+    }
+
+    function switchTab(tabKey, btn) {
+      document.querySelectorAll('.tab-btn').forEach(b => {
+        b.style.color = 'var(--color-text-muted)';
+        b.style.borderBottom = 'none';
+      });
+      btn.style.color = 'var(--color-black)';
+      btn.style.borderBottom = '3px solid var(--color-gold)';
+
+      document.getElementById('tab-content-desc').style.display = tabKey === 'desc' ? 'block' : 'none';
+      document.getElementById('tab-content-specs').style.display = tabKey === 'specs' ? 'block' : 'none';
+      document.getElementById('tab-content-reviews').style.display = tabKey === 'reviews' ? 'block' : 'none';
+      document.getElementById('tab-content-qa').style.display = tabKey === 'qa' ? 'block' : 'none';
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const id = new URLSearchParams(window.location.search).get('id') || 'prod-1';
+      currentProduct = window.luxoraDB.getProductById(id) || window.luxoraDB.getProducts()[0];
+
+      if (!currentProduct) return;
+
+      document.title = `${currentProduct.name} — LUXORA MARKET`;
+      document.getElementById('prod-crumb-name').textContent = currentProduct.name;
+      document.getElementById('prod-title').textContent = currentProduct.name;
+      document.getElementById('prod-brand').textContent = currentProduct.brand || 'LUXORA CERTIFIED';
+      document.getElementById('prod-sku').textContent = `SKU: ${currentProduct.sku}`;
+      document.getElementById('prod-rating-num').textContent = currentProduct.rating;
+      document.getElementById('prod-reviews-num').textContent = `(${currentProduct.review_count} verified reviews)`;
+      document.getElementById('prod-current-price').textContent = window.LuxoraProducts.formatPrice(currentProduct.sale_price || currentProduct.price);
+      document.getElementById('prod-seller-name').textContent = currentProduct.seller_name || 'Luxora Official Store';
+      document.getElementById('prod-short-desc').textContent = currentProduct.description.slice(0, 160) + '...';
+      document.getElementById('prod-full-description').textContent = currentProduct.description;
+
+      const discount = window.LuxoraProducts.calculateDiscount(currentProduct.price, currentProduct.sale_price);
+      if (discount) {
+        document.getElementById('prod-original-price').textContent = window.LuxoraProducts.formatPrice(currentProduct.price);
+        document.getElementById('prod-discount-badge').textContent = `-${discount}% OFF`;
+      } else {
+        document.getElementById('prod-original-price').style.display = 'none';
+        document.getElementById('prod-discount-badge').style.display = 'none';
+      }
+
+      // Main image & gallery
+      const fallbackImg = 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=80';
+      const mainImg = document.getElementById('main-product-image');
+      mainImg.src = currentProduct.main_image || fallbackImg;
+      mainImg.onerror = () => { mainImg.src = fallbackImg; };
+
+      const thumbsWrap = document.getElementById('product-thumbnails');
+      const gallery = currentProduct.gallery && currentProduct.gallery.length > 0 ? currentProduct.gallery : [currentProduct.main_image || fallbackImg];
+      thumbsWrap.innerHTML = gallery.map((img, i) => `
+        <img src="${img}" style="width: 70px; height: 70px; object-fit: cover; border-radius: var(--radius-sm); border: 2px solid ${i === 0 ? 'var(--color-gold)' : 'var(--color-border-light)'}; cursor: pointer;" onclick="document.getElementById('main-product-image').src='${img}'" onerror="this.src='${fallbackImg}'" />
+      `).join('');
+
+
+      // Specifications Table
+      const specsTable = document.getElementById('prod-specs-table');
+      if (currentProduct.specs) {
+        specsTable.innerHTML = Object.entries(currentProduct.specs).map(([k, v]) => `
+          <tr style="border-bottom: 1px solid var(--color-border-light);">
+            <td style="padding: 10px 16px; font-weight: 700; width: 30%; background: #F9FAFB;">${k}</td>
+            <td style="padding: 10px 16px;">${v}</td>
+          </tr>
+        `).join('');
+      }
+
+      // Add to cart & Buy now handlers
+      document.getElementById('btn-add-cart-main').onclick = () => {
+        const qty = parseInt(document.getElementById('buy-qty').value) || 1;
+        window.luxoraCart.addItem(currentProduct.id, qty);
+      };
+
+      document.getElementById('btn-buy-now-main').onclick = () => {
+        const qty = parseInt(document.getElementById('buy-qty').value) || 1;
+        window.luxoraCart.addItem(currentProduct.id, qty);
+        window.location.href = 'checkout.html';
+      };
+
+      document.getElementById('btn-wishlist-main').onclick = (e) => {
+        window.luxoraWishlist.toggleItem(currentProduct.id, e);
+      };
+
+      // Related Products
+      const all = window.luxoraDB.getProducts().filter(p => p.id !== currentProduct.id).slice(0, 4);
+      document.getElementById('related-products-grid').innerHTML = all.map(p => window.LuxoraProducts.renderProductCard(p)).join('');
+    });
+  </script>
+</body>
+</html>

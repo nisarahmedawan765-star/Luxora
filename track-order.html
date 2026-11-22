@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Track Your Order — LUXORA MARKET</title>
+  
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/components.css" />
+  <link rel="stylesheet" href="assets/css/responsive.css" />
+</head>
+<body style="background: #F8F9FA;">
+
+  <!-- Header -->
+  <header class="main-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand-logo">
+        <img src="assets/images/luxora-market-logo-web.png" alt="LUXORA MARKET" class="lx-logo-img" />
+      </a>
+      <div><a href="index.html" class="btn btn-outline-gold btn-sm">← Storefront</a></div>
+    </div>
+  </header>
+
+  <main class="container" style="max-width: 860px; margin: 40px auto 80px auto;">
+    
+    <!-- Order Lookup Box -->
+    <div style="background: #FFFFFF; border-radius: var(--radius-lg); border: 1px solid var(--color-border-light); padding: 32px; box-shadow: var(--shadow-sm); margin-bottom: 30px;">
+      <h1 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 8px;">Live Order Tracking</h1>
+      <p style="color: var(--color-text-muted); font-size: 0.9rem; margin-bottom: 20px;">Enter your unique Luxora order reference number to inspect real-time courier dispatch status.</p>
+
+      <form style="display: flex; gap: 10px;" onsubmit="event.preventDefault(); trackOrderLookup();">
+        <input type="text" id="track-order-input" class="form-input" placeholder="e.g. LX-892104" value="LX-892104" required />
+        <button type="submit" class="btn btn-green">Track Order</button>
+      </form>
+    </div>
+
+    <!-- Timeline Result Card -->
+    <div id="tracking-result-card" style="background: #FFFFFF; border-radius: var(--radius-lg); border: 1px solid var(--color-border-light); padding: 36px; box-shadow: var(--shadow-sm);">
+      
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid var(--color-border-light); padding-bottom: 20px; flex-wrap: wrap; gap: 14px;">
+        <div>
+          <span class="badge badge-gold" style="margin-bottom: 6px;">AIR COURIER PRIORITY</span>
+          <h2 style="font-size: 1.35rem; font-weight: 800;" id="display-order-number">Order LX-892104</h2>
+          <div style="font-size: 0.85rem; color: var(--color-text-muted);">Placed on <span id="display-order-date">August 21, 2026</span> • Carrier: <strong>TCS Express Air</strong></div>
+        </div>
+
+        <div style="text-align: right;">
+          <div style="font-size: 0.8rem; color: var(--color-text-muted);">Current Status:</div>
+          <span class="badge badge-active" style="font-size: 0.9rem;" id="display-order-status">Processing</span>
+        </div>
+      </div>
+
+      <!-- 6-Stage Timeline -->
+      <div id="timeline-stage-wrap">
+        <!-- Rendered by orders.js -->
+      </div>
+
+      <!-- Order Details Summary -->
+      <div style="background: #F9FAFB; padding: 20px; border-radius: var(--radius-md); margin-top: 30px;">
+        <h4 style="font-size: 0.95rem; margin-bottom: 12px;">Package Contents:</h4>
+        <div id="tracking-items-list" style="display: flex; flex-direction: column; gap: 10px; font-size: 0.9rem;">
+          <div style="display: flex; justify-content: space-between;">
+            <span>1x Sony WH-1000XM5 Wireless Noise-Canceling Headphones</span>
+            <strong>Rs. 79,999</strong>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Mobile Bottom Nav -->
+  <nav class="mobile-bottom-nav">
+    <a href="index.html" class="mobile-nav-item"><span>🏠</span><span>Home</span></a>
+    <a href="shop.html" class="mobile-nav-item"><span>🛍️</span><span>Shop</span></a>
+    <a href="wishlist.html" class="mobile-nav-item"><span>♥</span><span>Wishlist</span></a>
+    <a href="cart.html" class="mobile-nav-item"><span>🛒</span><span>Cart</span></a>
+    <a href="account.html" class="mobile-nav-item"><span>👤</span><span>Account</span></a>
+  </nav>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="assets/js/supabase.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/orders.js"></script>
+  <script src="assets/js/main.js"></script>
+
+  <script>
+    function trackOrderLookup() {
+      const num = document.getElementById('track-order-input').value.trim();
+      document.getElementById('display-order-number').textContent = `Order ${num}`;
+      
+      const orders = window.luxoraDB.getOrders();
+      const order = orders.find(o => o.order_number === num) || {
+        order_number: num,
+        order_status: 'processing',
+        created_at: new Date().toISOString()
+      };
+
+      document.getElementById('display-order-status').textContent = order.order_status.toUpperCase();
+      document.getElementById('timeline-stage-wrap').innerHTML = window.LuxoraOrders.renderTrackingTimeline(order.order_status);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      trackOrderLookup();
+    });
+  </script>
+</body>
+</html>

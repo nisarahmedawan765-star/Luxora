@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shopping Cart — LUXORA MARKET</title>
+  
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/components.css" />
+  <link rel="stylesheet" href="assets/css/responsive.css" />
+</head>
+<body>
+
+  <!-- Top Utility Bar -->
+  <div class="top-bar">
+    <div class="container top-bar-inner">
+      <div class="top-bar-links">
+        <a href="index.html">← Continue Shopping</a>
+      </div>
+      <div class="top-bar-links">
+        <span>🔒 256-Bit SSL Encrypted Luxury Checkout</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="main-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand-logo">
+        <img src="assets/images/luxora-market-logo-web.png" alt="LUXORA MARKET" class="lx-logo-img" />
+      </a>
+
+      <div style="font-weight: 700; color: var(--color-white); font-size: 1.2rem; display: flex; align-items: center; gap: 8px;">
+        <span>🛒 Shopping Cart</span>
+      </div>
+
+      <div class="header-actions">
+        <a href="wishlist.html" class="header-action-item"><span class="header-action-icon">♥ <span class="badge-count wishlist-count-badge">0</span></span></a>
+        <a href="account.html" class="header-action-item"><span class="header-action-icon">👤</span></a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" style="margin-top: 30px; margin-bottom: 60px;">
+    
+    <div id="cart-content-wrapper" class="cart-layout">
+      
+      <!-- Left Column: Items List -->
+      <div>
+        <div style="background: #FFFFFF; border-radius: var(--radius-lg); border: 1px solid var(--color-border-light); padding: 24px; box-shadow: var(--shadow-sm); margin-bottom: 24px;">
+          
+          <!-- Free Shipping Progress Bar -->
+          <div id="free-shipping-box" style="background: var(--color-light); border-radius: var(--radius-md); padding: 14px 18px; margin-bottom: 24px; border: 1px solid var(--color-border-light);">
+            <div style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 600; margin-bottom: 8px;">
+              <span id="shipping-progress-text">🚚 Add Rs. 0 more to unlock Free Nationwide Delivery!</span>
+              <span id="shipping-progress-percent">100%</span>
+            </div>
+            <div style="height: 6px; background: #E5E7EB; border-radius: var(--radius-full); overflow: hidden;">
+              <div id="shipping-progress-bar" style="height: 100%; width: 100%; background: var(--color-green); transition: width 0.3s ease;"></div>
+            </div>
+          </div>
+
+          <h2 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 20px; border-bottom: 1px solid var(--color-border-light); padding-bottom: 12px;">
+            Cart Items (<span id="cart-total-items">0</span>)
+          </h2>
+
+          <!-- Cart Items Table / List -->
+          <div id="cart-items-container" style="display: flex; flex-direction: column; gap: 20px;">
+            <!-- Rendered by JS -->
+          </div>
+
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <a href="shop.html" class="btn btn-outline">← Continue Shopping</a>
+          <button onclick="window.luxoraCart.clearCart(); renderCart();" class="btn btn-outline" style="color: var(--color-red);">🗑 Clear Cart</button>
+        </div>
+      </div>
+
+      <!-- Right Column: Order Summary & Coupon -->
+      <div>
+        <div style="background: #FFFFFF; border-radius: var(--radius-lg); border: 1px solid var(--color-border-light); padding: 24px; box-shadow: var(--shadow-sm); position: sticky; top: 100px;">
+          
+          <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 18px; border-bottom: 1px solid var(--color-border-light); padding-bottom: 10px;">
+            Order Summary
+          </h3>
+
+          <!-- Coupon Code Input -->
+          <div class="form-group">
+            <label class="form-label" style="font-size: 0.8rem;">Have a Promo / Coupon Code?</label>
+            <div style="display: flex; gap: 8px;">
+              <input type="text" id="coupon-input" class="form-input" placeholder="e.g. LUXORA10, GOLD20" style="text-transform: uppercase;" />
+              <button onclick="applyCoupon()" class="btn btn-green btn-sm" style="padding: 0 16px;">Apply</button>
+            </div>
+            <div id="coupon-message" style="font-size: 0.8rem; margin-top: 6px;"></div>
+          </div>
+
+          <!-- Price Calculations -->
+          <div style="display: flex; flex-direction: column; gap: 12px; margin: 20px 0; font-size: 0.9rem; border-top: 1px solid var(--color-border-light); padding-top: 16px;">
+            <div style="display: flex; justify-content: space-between;">
+              <span style="color: var(--color-text-muted);">Subtotal:</span>
+              <strong id="cart-subtotal">Rs. 0</strong>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; color: var(--color-green);" id="cart-savings-row">
+              <span>Savings / Discount:</span>
+              <strong id="cart-savings">-Rs. 0</strong>
+            </div>
+
+            <div style="display: flex; justify-content: space-between;">
+              <span style="color: var(--color-text-muted);">Shipping Fee:</span>
+              <strong id="cart-shipping">Free</strong>
+            </div>
+
+            <div id="applied-coupon-row" style="display: none; justify-content: space-between; color: var(--color-green);">
+              <span>Coupon (<span id="applied-coupon-code"></span>):</span>
+              <strong id="cart-coupon-discount">-Rs. 0</strong>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; font-size: 1.25rem; font-weight: 800; border-top: 2px solid var(--color-border-light); padding-top: 14px; color: var(--color-black);">
+              <span>Grand Total:</span>
+              <span id="cart-grand-total" style="color: var(--color-black);">Rs. 0</span>
+            </div>
+          </div>
+
+          <!-- Checkout Action -->
+          <a href="checkout.html" class="btn btn-green btn-lg btn-block" style="font-size: 1.05rem; padding: 14px;">
+            🔒 Proceed to Checkout
+          </a>
+
+          <div style="margin-top: 16px; font-size: 0.78rem; text-align: center; color: var(--color-text-muted);">
+            ✓ 100% Buyer Protection • Free Insured Delivery Available
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Empty Cart Fallback -->
+    <div id="cart-empty-view" style="display: none; background: #FFFFFF; padding: 80px 20px; text-align: center; border-radius: var(--radius-lg); border: 1px solid var(--color-border-light);">
+      <div style="font-size: 4rem; margin-bottom: 16px;">🛒</div>
+      <h2 style="font-size: 1.6rem; margin-bottom: 8px;">Your Shopping Cart is Empty</h2>
+      <p style="color: var(--color-text-muted); margin-bottom: 24px;">Explore our luxury watches, audio gear, smartphones, and fashion catalog.</p>
+      <a href="shop.html" class="btn btn-green btn-lg">Explore Luxury Catalog</a>
+    </div>
+
+  </main>
+
+  <!-- Mobile Bottom Nav -->
+  <nav class="mobile-bottom-nav">
+    <a href="index.html" class="mobile-nav-item"><span>🏠</span><span>Home</span></a>
+    <a href="shop.html" class="mobile-nav-item"><span>🛍️</span><span>Shop</span></a>
+    <a href="wishlist.html" class="mobile-nav-item"><span>♥</span><span>Wishlist</span></a>
+    <a href="cart.html" class="mobile-nav-item active"><span>🛒</span><span>Cart</span></a>
+    <a href="account.html" class="mobile-nav-item"><span>👤</span><span>Account</span></a>
+  </nav>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="assets/js/supabase.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/products.js"></script>
+  <script src="assets/js/cart.js"></script>
+  <script src="assets/js/wishlist.js"></script>
+  <script src="assets/js/main.js"></script>
+
+  <script>
+    function renderCart() {
+      const cart = window.luxoraCart;
+      const items = cart.items;
+
+      if (items.length === 0) {
+        document.getElementById('cart-content-wrapper').style.display = 'none';
+        document.getElementById('cart-empty-view').style.display = 'block';
+        return;
+      }
+
+      document.getElementById('cart-content-wrapper').style.display = 'grid';
+      document.getElementById('cart-empty-view').style.display = 'none';
+      document.getElementById('cart-total-items').textContent = cart.getCount();
+
+      // Render Items
+      const container = document.getElementById('cart-items-container');
+      container.innerHTML = items.map(item => `
+        <div style="display: flex; gap: 18px; padding-bottom: 20px; border-bottom: 1px solid var(--color-border-light); align-items: center;">
+          <img src="${item.image}" alt="${item.name}" style="width: 80px; height: 80px; object-fit: cover; border-radius: var(--radius-md); border: 1px solid var(--color-border-light);" />
+          
+          <div style="flex: 1;">
+            <div style="font-size: 0.75rem; color: var(--color-green); font-weight: 700; text-transform: uppercase;">${item.seller_name}</div>
+            <h4 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 4px;"><a href="product.html?id=${item.product_id}">${item.name}</a></h4>
+            <div style="font-size: 0.9rem; font-weight: 800; color: var(--color-black);">
+              Rs. ${Number(item.price).toLocaleString()}
+              ${item.original_price && item.original_price > item.price ? `<span style="font-size: 0.8rem; color: var(--color-text-muted); text-decoration: line-through; margin-left: 6px;">Rs. ${Number(item.original_price).toLocaleString()}</span>` : ''}
+            </div>
+          </div>
+
+          <!-- Stepper -->
+          <div style="display: flex; align-items: center; border: 1px solid var(--color-border-light); border-radius: var(--radius-md); overflow: hidden;">
+            <button onclick="window.luxoraCart.updateQuantity('${item.product_id}', ${item.quantity - 1}); renderCart();" style="padding: 6px 10px; background: #F9FAFB; font-weight: 800;">-</button>
+            <span style="padding: 6px 12px; font-weight: 700; font-size: 0.9rem;">${item.quantity}</span>
+            <button onclick="window.luxoraCart.updateQuantity('${item.product_id}', ${item.quantity + 1}); renderCart();" style="padding: 6px 10px; background: #F9FAFB; font-weight: 800;">+</button>
+          </div>
+
+          <!-- Total Line -->
+          <div style="font-size: 1.05rem; font-weight: 800; color: var(--color-black); min-width: 110px; text-align: right;">
+            Rs. ${Number(item.price * item.quantity).toLocaleString()}
+          </div>
+
+          <!-- Remove -->
+          <button onclick="window.luxoraCart.removeItem('${item.product_id}'); renderCart();" title="Remove" style="color: var(--color-text-muted); font-size: 1.2rem; padding: 4px;">
+            🗑
+          </button>
+        </div>
+      `).join('');
+
+      // Calculations
+      const subtotal = cart.getSubtotal();
+      const savings = cart.getSavings();
+      const shipping = cart.getShippingFee();
+      const couponDisc = cart.getCouponDiscount();
+      const grandTotal = cart.getGrandTotal();
+
+      document.getElementById('cart-subtotal').textContent = `Rs. ${subtotal.toLocaleString()}`;
+      document.getElementById('cart-savings').textContent = `-Rs. ${savings.toLocaleString()}`;
+      document.getElementById('cart-shipping').textContent = shipping === 0 ? 'FREE' : `Rs. ${shipping.toLocaleString()}`;
+      document.getElementById('cart-grand-total').textContent = `Rs. ${grandTotal.toLocaleString()}`;
+
+      // Free shipping progress
+      const threshold = window.SUPABASE_CONFIG.FREE_SHIPPING_THRESHOLD;
+      const progressBox = document.getElementById('free-shipping-box');
+      if (subtotal >= threshold) {
+        document.getElementById('shipping-progress-text').innerHTML = `🎉 Congratulations! You have unlocked <strong>Free Nationwide Delivery</strong>!`;
+        document.getElementById('shipping-progress-percent').textContent = `100%`;
+        document.getElementById('shipping-progress-bar').style.width = `100%`;
+      } else {
+        const remaining = threshold - subtotal;
+        const pct = Math.min(100, Math.round((subtotal / threshold) * 100));
+        document.getElementById('shipping-progress-text').innerHTML = `🚚 Add <strong>Rs. ${remaining.toLocaleString()}</strong> more for Free Delivery!`;
+        document.getElementById('shipping-progress-percent').textContent = `${pct}%`;
+        document.getElementById('shipping-progress-bar').style.width = `${pct}%`;
+      }
+
+      // Applied coupon
+      if (cart.appliedCoupon) {
+        document.getElementById('applied-coupon-row').style.display = 'flex';
+        document.getElementById('applied-coupon-code').textContent = cart.appliedCoupon.code;
+        document.getElementById('cart-coupon-discount').textContent = `-Rs. ${couponDisc.toLocaleString()}`;
+        document.getElementById('coupon-message').innerHTML = `<span style="color: var(--color-green); font-weight: 600;">✓ Coupon ${cart.appliedCoupon.code} applied! <a href="#" onclick="window.luxoraCart.removeCoupon(); renderCart(); return false;" style="color: var(--color-red); font-size: 0.75rem;">(Remove)</a></span>`;
+      } else {
+        document.getElementById('applied-coupon-row').style.display = 'none';
+        document.getElementById('coupon-message').textContent = '';
+      }
+    }
+
+    function applyCoupon() {
+      const code = document.getElementById('coupon-input').value.trim();
+      if (!code) return;
+      const result = window.luxoraCart.applyCouponCode(code);
+      if (result.success) {
+        if (window.showToast) window.showToast(result.message, 'success');
+      } else {
+        if (window.showToast) window.showToast(result.message, 'error');
+      }
+      renderCart();
+    }
+
+    document.addEventListener('DOMContentLoaded', renderCart);
+  </script>
+</body>
+</html>

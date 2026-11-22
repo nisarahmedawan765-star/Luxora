@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customer Dashboard — LUXORA MARKET</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/components.css" />
+  <link rel="stylesheet" href="assets/css/responsive.css" />
+  <style>
+    .account-layout {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 28px;
+      margin-top: 30px;
+      margin-bottom: 60px;
+    }
+
+    @media (max-width: 900px) {
+      .account-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .account-sidebar {
+      background: #FFFFFF;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--color-border-light);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+      height: fit-content;
+    }
+
+    .account-avatar-wrapper {
+      text-align: center;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--color-border-light);
+      margin-bottom: 16px;
+    }
+
+    .account-avatar-img {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--color-gold);
+      box-shadow: var(--shadow-md);
+      cursor: pointer;
+    }
+
+    .account-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .account-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: var(--radius-md);
+      color: var(--color-text-main);
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .account-nav-item:hover {
+      background: var(--color-light);
+      color: var(--color-gold-dark);
+    }
+
+    .account-nav-item.active {
+      background: var(--color-gold-gradient);
+      color: #000;
+      font-weight: 800;
+    }
+
+    .account-card {
+      background: #FFFFFF;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--color-border-light);
+      padding: 28px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 24px;
+    }
+
+    .wallet-stat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    @media (max-width: 600px) {
+      .wallet-stat-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .wallet-stat-card {
+      background: #F9FAFB;
+      border: 1px solid var(--color-border-light);
+      border-radius: var(--radius-md);
+      padding: 18px;
+    }
+
+    .wallet-stat-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+    }
+
+    .wallet-stat-val {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--color-black);
+      margin-top: 4px;
+    }
+
+    .status-pill {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: capitalize;
+    }
+    .status-paid, .status-delivered, .status-approved { background: #DCFCE7; color: #15803D; }
+    .status-pending, .status-processing { background: #FEF3C7; color: #B45309; }
+    .status-rejected, .status-cancelled { background: #FEE2E2; color: #B91C1C; }
+  </style>
+</head>
+
+<body style="background: #F8F9FA;">
+
+  <!-- Header -->
+  <header class="main-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand-logo">
+        <img src="assets/images/luxora-market-logo-web.png" alt="LUXORA MARKET" class="brand-logo-img" />
+      </a>
+      <div style="font-weight: 700; color: var(--color-white);">👤 Customer Portal</div>
+      <div class="header-actions">
+        <a href="cart.html" class="header-action-item"><span class="header-action-icon">🛒 <span class="badge-count cart-count-badge">0</span></span></a>
+        <button onclick="window.luxoraAuth.logout()" class="btn btn-outline-gold btn-sm">Sign Out</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container account-layout">
+
+    <!-- Sidebar -->
+    <aside class="account-sidebar">
+      <div class="account-avatar-wrapper">
+        <img id="account-avatar-img" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&q=80" alt="Avatar" class="account-avatar-img" onclick="document.getElementById('avatar-file-input').click()" title="Click to change profile picture" />
+        <input type="file" id="avatar-file-input" accept="image/png, image/jpeg, image/webp" style="display:none;" onchange="LuxoraAccount.handleAvatarSelect(this)" />
+        <div style="margin-top:8px;">
+          <button id="save-avatar-btn" type="button" onclick="LuxoraAccount.uploadSelectedAvatar()" class="btn btn-gold btn-sm" style="display:none;padding:4px 12px;font-size:0.75rem;">Save New Avatar</button>
+        </div>
+        <h3 class="user-full-name" style="font-size:1.1rem;font-weight:800;margin-top:10px;margin-bottom:2px;">User Profile</h3>
+        <span class="user-email-addr" style="font-size:0.8rem;color:var(--color-text-muted);display:block;">loading…</span>
+        <span class="user-role-badge badge badge-gold" style="margin-top:6px;display:inline-block;">CUSTOMER</span>
+      </div>
+
+      <nav class="account-nav">
+        <div class="account-nav-item active" data-tab="profile">👤 Profile & Security</div>
+        <div class="account-nav-item" data-tab="orders">📦 My Orders</div>
+        <div class="account-nav-item" data-tab="wallet">💳 Wallet & Transactions</div>
+        <div class="account-nav-item" data-tab="addresses">📍 Saved Addresses</div>
+        <div class="account-nav-item" data-tab="become-seller" style="color:var(--color-gold-dark);font-weight:800;">✦ Become a Seller</div>
+        <button onclick="window.luxoraAuth.logout()" class="account-nav-item" style="color:var(--color-red);background:none;border:none;text-align:left;width:100%;margin-top:12px;">🚪 Sign Out</button>
+      </nav>
+    </aside>
+
+    <!-- Main Tab Content Panes -->
+    <section>
+      
+      <!-- Tab 1: Profile & Security -->
+      <div id="tab-pane-profile" class="account-tab-pane">
+        <div class="account-card">
+          <h3 style="font-size:1.2rem;font-weight:800;margin-bottom:18px;">Personal Information</h3>
+          <form onsubmit="LuxoraAccount.saveProfileChanges(event)">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+              <div class="form-group">
+                <label class="form-label">Full Name</label>
+                <input type="text" id="profile-edit-name" class="form-input" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Phone Number</label>
+                <input type="tel" id="profile-edit-phone" class="form-input" placeholder="+92 300 1234567" />
+              </div>
+            </div>
+            <button type="submit" class="btn btn-green">Save Profile Changes</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Tab 2: Orders -->
+      <div id="tab-pane-orders" class="account-tab-pane" style="display:none;">
+        <div class="account-card">
+          <h3 style="font-size:1.2rem;font-weight:800;margin-bottom:18px;">My Order History</h3>
+          <div style="overflow-x:auto;">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Order #</th>
+                  <th>Date</th>
+                  <th>Total Amount</th>
+                  <th>Payment</th>
+                  <th>Fulfillment</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="customer-orders-tbody">
+                <tr><td colspan="6" style="text-align:center;padding:20px;">Loading orders…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 3: Wallet & Transactions -->
+      <div id="tab-pane-wallet" class="account-tab-pane" style="display:none;">
+        <div class="account-card">
+          <h3 style="font-size:1.2rem;font-weight:800;margin-bottom:18px;">My Wallet & Payments</h3>
+          <div class="wallet-stat-grid">
+            <div class="wallet-stat-card">
+              <div class="wallet-stat-label">Available Balance</div>
+              <div class="wallet-stat-val" id="cust-wallet-balance" style="color:var(--color-green);">Rs. 0</div>
+            </div>
+            <div class="wallet-stat-card">
+              <div class="wallet-stat-label">Total Deposited</div>
+              <div class="wallet-stat-val" id="cust-wallet-deposited">Rs. 0</div>
+            </div>
+            <div class="wallet-stat-card">
+              <div class="wallet-stat-label">Total Withdrawn</div>
+              <div class="wallet-stat-val" id="cust-wallet-withdrawn">Rs. 0</div>
+            </div>
+          </div>
+
+          <!-- Deposit Section -->
+          <div style="margin-top:28px;padding-top:20px;border-top:1px solid var(--color-border-light);">
+            <h4 style="font-size:1rem;font-weight:800;margin-bottom:12px;">Submit Deposit (EasyPaisa / JazzCash / Bank)</h4>
+            <form onsubmit="LuxoraAccount.submitDeposit(event)" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;align-items:end;">
+              <div class="form-group">
+                <label class="form-label">Amount (Rs.) *</label>
+                <input type="number" id="dep-amount" class="form-input" min="100" placeholder="10000" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Payment Method *</label>
+                <select id="dep-method" class="form-select" required>
+                  <option value="easypaisa">EasyPaisa</option>
+                  <option value="jazzcash">JazzCash</option>
+                  <option value="bank_transfer">Bank Transfer</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Transaction Ref / TRX # *</label>
+                <input type="text" id="dep-ref" class="form-input" placeholder="e.g. EP-998811" required />
+              </div>
+              <div style="grid-column: span 3;">
+                <button type="submit" id="dep-submit-btn" class="btn btn-green">Submit Deposit for Verification →</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 4: Addresses -->
+      <div id="tab-pane-addresses" class="account-tab-pane" style="display:none;">
+        <div class="account-card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+            <h3 style="font-size:1.2rem;font-weight:800;">Saved Shipping Addresses</h3>
+          </div>
+          <p style="font-size:0.88rem;color:var(--color-text-muted);">Manage your default shipping destinations for express checkout.</p>
+        </div>
+      </div>
+
+      <!-- Tab 5: Become a Seller -->
+      <div id="tab-pane-become-seller" class="account-tab-pane" style="display:none;">
+        <div id="seller-tab-container"></div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="assets/js/supabase.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/role-guard.js"></script>
+  <script src="assets/js/seller-application.js"></script>
+  <script src="assets/js/account.js"></script>
+</body>
+</html>

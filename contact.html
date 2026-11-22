@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact VIP Concierge — LUXORA MARKET</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/components.css" />
+  <link rel="stylesheet" href="assets/css/responsive.css" />
+</head>
+<body>
+  <header class="main-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand-logo">
+        <img src="assets/images/luxora-market-logo-web.png" alt="LUXORA MARKET" class="lx-logo-img" />
+      </a>
+      <a href="index.html" class="btn btn-outline-gold btn-sm">← Back to Home</a>
+    </div>
+  </header>
+
+  <main class="container" style="max-width: 860px; margin: 40px auto 80px auto;">
+    <div style="background: #FFFFFF; border-radius: var(--radius-lg); border: 1px solid var(--color-border-light); padding: 40px; box-shadow: var(--shadow-sm);">
+      <span class="badge badge-green" style="margin-bottom: 12px;">24/7 DEDICATED CONCIERGE</span>
+      <h1 style="font-size: 2rem; font-weight: 800; margin-bottom: 10px;">Contact Luxora Support</h1>
+      <p style="color: var(--color-text-muted); font-size: 0.95rem; margin-bottom: 30px;">Have questions about authentic timepieces, order dispatches, or seller onboarding? Contact our dedicated VIP team.</p>
+
+      <form onsubmit="event.preventDefault(); window.showToast('Your message has been sent to our VIP Concierge team.', 'success'); this.reset();">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+          <div class="form-group">
+            <label class="form-label">Your Name *</label>
+            <input type="text" class="form-input" placeholder="e.g. Zaryab Khan" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Your Email *</label>
+            <input type="email" class="form-input" placeholder="e.g. name@example.com" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Subject *</label>
+          <input type="text" class="form-input" placeholder="e.g. Inquiry regarding Rolex Submariner Date" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Message *</label>
+          <textarea class="form-textarea" rows="4" placeholder="How can we assist you today?" required></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-green btn-lg">Send Message to Concierge</button>
+      </form>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="assets/js/supabase.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
